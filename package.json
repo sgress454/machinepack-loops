@@ -1,0 +1,30 @@
+{
+  "name": "machinepack-loops",
+  "version": "0.1.0",
+  "description": "Machines that allow the use of other machines in a loop.",
+  "scripts": {
+    "test": "node ./node_modules/mocha/bin/mocha -b"
+  },
+  "keywords": [
+    "Loops",
+    "machines",
+    "machinepack"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^0.9.0",
+    "machine": "^2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0"
+  },
+  "machinepack": {
+    "friendlyName": "Loops",
+    "machineDir": "machines/",
+    "machines": [
+      "each",
+      "map"
+    ]
+  }
+}
