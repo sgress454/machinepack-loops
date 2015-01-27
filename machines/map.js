@@ -39,7 +39,7 @@ module.exports = {
         var firstWorkerInputName = _.keys(inputValues.worker)[0];
         var workerInputTuple = (function(){
           var vals = {};
-          vals[firstWorkerInputName] = firstItem;
+          vals[firstWorkerInputName] = firstItemInArray;
           return vals;
         })();
 
