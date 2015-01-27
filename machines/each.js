@@ -4,20 +4,33 @@ module.exports = {
   extendedDescription: '',
   inputs: {
     array: {
+      description: 'The array to loop over',
       typeclass: 'array',
       required: true
     },
-    series: {
-      example: false
-    },
     worker: {
+      description: 'The machine to run on each item in the array.',
+      extendedDescription: 'Expects machine to have a single (typeclass: "*") input called "value", and two exits: "success" and "error".',
       typeclass: 'machine',
       required: true
+    },
+    series: {
+      description: 'Whether to run worker on one item at a time (in series)',
+      extendedDescription: 'By default, all items are run at the same time (in parallel)',
+      example: false,
+      defaultsTo: false
+    },
+  },
+  defaultExit: 'success',
+  exits: {
+    error: {
+      description: 'Unexpected error occurred.'
+    },
+    success: {
+      friendlyName: 'then',
+      description: 'Done.'
     }
   },
-  defaultExit: 'then',
-  exits: { error: { description: 'Unexpected error occurred.' },
-    then: { description: 'Done.', example: 'TODO' } },
   fn: function (inputs,exits) {
     var async = require('async');
     // Get the name of the first input to the worker
