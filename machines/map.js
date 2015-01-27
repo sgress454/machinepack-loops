@@ -33,7 +33,7 @@ module.exports = {
         var _ = require('lodash');
 
         // Look up the first item in the array
-        var firstItemInArray = inputs.array[0];
+        var firstItemInArray = inputs.array && inputs.array.length && inputs.array[0] || {};
 
         // Build up input values to use in the worker
         var firstWorkerInputName = _.keys(inputs.worker)[0];
