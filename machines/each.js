@@ -4,13 +4,15 @@ module.exports = {
   extendedDescription: '',
   inputs: {
     array: {
-      typeclass: 'array'
+      typeclass: 'array',
+      required: true
     },
     series: {
       example: false
     },
     worker: {
-      typeclass: 'machine'
+      typeclass: 'machine',
+      required: true
     }
   },
   defaultExit: 'then',
