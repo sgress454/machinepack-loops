@@ -44,7 +44,7 @@ module.exports = {
         })();
 
         // Get the example (using getExample() if necessary) of the default exit of the worker.
-        var defaultExit = inputValues.worker.exits[inputValues.worker.defaultExit];
+        var defaultExit = inputs.worker.exits[inputs.worker.defaultExit] || _.values(_.omit(inputs.worker.exits, 'error'))[0];
         var defaultExitExample = (function (){
           // If `getExample()` is defined, call it using the first item of the array.
           if (_.isFunction(defaultExit.getExample)) {
