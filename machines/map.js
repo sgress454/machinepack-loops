@@ -29,17 +29,17 @@ module.exports = {
     success: {
       friendlyName: 'then',
       description: 'Returns a new array of the same length, but possibly with transformed values.',
-      getExample: function (inputValues, env) {
+      getExample: function (inputs, env) {
         var _ = require('lodash');
 
         // Look up the first item in the array
-        var firstItemInArray = inputValues.array[0];
+        var firstItemInArray = inputs.array && inputs.array.length && inputs.array[0] || {};
 
         // Build up input values to use in the worker
-        var firstWorkerInputName = _.keys(inputValues.worker)[0];
+        var firstWorkerInputName = _.keys(inputs.worker)[0];
         var workerInputTuple = (function(){
           var vals = {};
-          vals[firstWorkerInputName] = firstItem;
+          vals[firstWorkerInputName] = firstItemInArray;
           return vals;
         })();
 
