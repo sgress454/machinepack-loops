@@ -14,6 +14,11 @@ module.exports = {
       typeclass: 'machine',
       required: true
     },
+    data: {
+      description: 'Optional data param for the worker',
+      extendedDescription: 'Use this to pass other data and options to the worker besides the array item',
+      example: '*'
+    },
     series: {
       description: 'Whether to run worker on one item at a time (in series)',
       extendedDescription: 'By default, all items are run at the same time (in parallel)',
@@ -37,9 +42,13 @@ module.exports = {
 
         // Build up input values to use in the worker
         var firstWorkerInputName = _.keys(inputs.worker)[0];
+        var secondWorkerInputName = _.keys(inputs.worker)[1];
         var workerInputTuple = (function(){
           var vals = {};
           vals[firstWorkerInputName] = firstItemInArray;
+          if (secondWorkerInputName && !_.isUndefined(inputs.data)) {
+              vals[secondWorkerInputName] = inputs.data;
+          }
           return vals;
         })();
 
@@ -59,7 +68,7 @@ module.exports = {
       }
     }
   },
-  fn: function (inputs,exits) {
+  fn: function (inputs,exits,env) {
 
     var async = require('async');
 
@@ -76,8 +85,16 @@ module.exports = {
     loop(inputs.array, function(item, cb) {
       var config = {};
       config[workerInputs[0]] = item;
-      inputs.worker(config).exec(cb);
+      if (inputs.data && workerInputs.length > 1) {
+          config[workerInputs[1]] = inputs.data;
+      }
+      inputs.worker(config).setEnvironment(env).exec(function(err, output) {
+          if (err && err.exit && err.exit.indexOf('success') === 0) {return cb(null, err.output);}
+          if (err) {return cb(err);}
+          return cb(null, output);
+      });
     }, exits);
+
   },
 
 };
