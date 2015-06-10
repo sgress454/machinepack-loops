@@ -1,6 +1,6 @@
 {
   "name": "machinepack-loops",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Machines that allow the use of other machines in a loop.",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha -b"
