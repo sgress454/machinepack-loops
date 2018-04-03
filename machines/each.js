@@ -20,6 +20,11 @@ module.exports = {
       example: false,
       defaultsTo: false
     },
+    array_of_objects: {
+      description: 'Whether to we treat your array as object to literally pass to your worker',
+      example: false,
+      defaultsTo: false
+    }
   },
   defaultExit: 'success',
   exits: {
@@ -40,12 +45,19 @@ module.exports = {
     }
     var workerInputs = Object.keys(inputs.worker.inputs);
     if (workerInputs.length === 0) {
+        //TODO: reconsider this validation
+        //  some workers may have no input. Consider a 'Hello World' style machine
       return exits.error("Worker misconfigured: inputs object empty");
     }
     var loop = inputs.series ? async.eachSeries : async.each;
     loop(inputs.array, function(item, cb) {
       var config = {};
-      config[workerInputs[0]] = item;
+      //In the case of
+      if(inputs.array_of_objects){
+          config = item;
+      } else {
+          config[workerInputs[0]] = item;
+      }
       inputs.worker(config).exec(cb);
     }, exits);
   },
